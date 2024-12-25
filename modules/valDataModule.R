@@ -24,7 +24,7 @@ valDataUI <- function(id) {
           fluidRow(
             width = 4,
             # Add a download button
-            downloadButton(ns("download_val_data"), "Download Data", class = "btn btn-primary btn-primary-custom")
+            downloadButton(ns("download_val_data"), "Download Valuation Data", class = "btn btn-primary btn-primary-custom")
           ),
           br(),
         DTOutput(ns("val_data_table"))
