@@ -140,6 +140,15 @@ bootstrappingServer <- function(id, data) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
+    # Create a reactiveValues to store multiple results
+    bootResultsList <- reactiveValues(
+      # Each entry will be: 
+      #   boot_summary = <data.frame>,
+      #   confidence_df = <data.frame>,
+      #   method = <string>
+      #   ...
+    )
+
 
     # Populate Statutory Class Choices (repeated)
     observeEvent(data(), {
@@ -187,10 +196,40 @@ bootstrappingServer <- function(id, data) {
         group_by(Loss_Year, Dev_period) %>%
         summarise(Gross_Amount = sum(Gross_Paid, na.rm = TRUE), .groups = "drop")
         
-        inc_tri <- as.triangle(filtered_data, origin = "Loss_Year", dev = "Dev_period", value = "Gross_Amount")
+        inc_tri <- as.triangle(
+            filtered_data, 
+            origin = "Loss_Year",
+            dev = "Dev_period",
+            value = "Gross_Amount"
+        )
+
         cum_tri <- incr2cum(inc_tri, na.rm = TRUE)
         
         Boot_Method <- BootChainLadder(cum_tri, R = 999, process.distr = "od.pois")
+        
+        
+        # After building Boot_Method, store the results
+        # 1) Save the summary totals
+        boot_summary    <- summary(Boot_Method)$Totals
+        # 2) Save confidence levels
+        confidence      <- quantile(Boot_Method, c(0.75))
+        confidence_df   <- as.data.frame(confidence$ByOrigin)
+        # 3) Save the method and statutory class
+        method_used     <- input$outlier_option
+        statutory_class <- input$boot_statutory_class
+
+        # Key by "statutory_class + _ + method_used" or something unique:
+        key <- paste(statutory_class, method_used, sep = "_")
+
+        # Save them in the reactiveValues
+        bootResultsList[[key]] <- list(
+            boot_summary    = boot_summary,
+            confidence_df   = confidence_df,
+            method_used     = method_used,
+            statutory_class = statutory_class
+        )
+
+
         list(Boot_Method = Boot_Method, Cum_Tri = cum_tri)
     })
     
@@ -293,7 +332,10 @@ bootstrappingServer <- function(id, data) {
     })
     
 
-     return(reactive({ risk_margin_data() }))
+    return(list(
+      risk_margin_data = reactive({ risk_margin_data() }),
+      bootResults      = reactive({ bootResultsList })
+    ))
 
   })
 }
