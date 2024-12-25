@@ -131,9 +131,13 @@ server <- function(input, output, session) {
   
    cumTriServer("cumulative_triangles_id", data)
 
-   risk_margin_data <- bootstrappingServer("bootstrapping_id", data)
+   boot_out <- bootstrappingServer("bootstrapping_id", data)
 
-   riskMarginResultsServer("riskMarginResults_id", risk_margin_data)
+   risk_margin_data <- boot_out$risk_margin_data
+
+   all_boot_results <- boot_out$bootResults
+
+   riskMarginResultsServer("riskMarginResults_id", risk_margin_data, all_boot_results)
 }
 
 # Run the application
