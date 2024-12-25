@@ -14,6 +14,7 @@ incrTriUI <- function(id) {
           width = 4,
           selectInput(ns("statutory_class"), "Select Statutory Class", choices = NULL)
         ),
+        hr(),
         column(
           width = 4,
           selectInput(
@@ -24,15 +25,19 @@ incrTriUI <- function(id) {
           )
         )
       ),
+      br(),
       uiOutput(ns("loss_year_range_ui")),
+      br(),
+      br(),
       fluidRow(
         column(
           width = 4,
           actionButton(ns("generate_triangle"), "Generate Incremental Triangle", class = "btn btn-primary btn-primary-custom")
         ),
+        hr(),
         column(
           width = 4,
-          downloadButton(ns("download_triangle"), "Download Triangle CSV", class = "btn btn-primary btn-primary-custom")
+          downloadButton(ns("download_triangle"), "Download Incremental Triangle CSV", class = "btn btn-primary btn-primary-custom")
         )
       ),
       tags$div(
@@ -67,10 +72,10 @@ incrTriServer <- function(id, data) {
       
       sliderInput(
         ns("loss_year_range"),
-        "Select Loss Year Range",
+        "Select Loss Year Range for the Incremental Triangle",
         min = min(available_years),
         max = max(available_years),
-        value = c(min(available_years), max(available_years)),
+        value = c(max(available_years) - 5, max(available_years)),
         step = 1,
         sep = ""  
       )
@@ -162,7 +167,13 @@ incrTriServer <- function(id, data) {
     # Download handler for the triangle data
     output$download_triangle <- downloadHandler(
       filename = function() {
-        paste("incrulative_triangle_", Sys.Date(), ".csv", sep = "")
+         if (input$time_scale == "Yearly") {
+          paste("incremental_triangle_Yearly ", Sys.Date(), ".csv", sep = "")
+         } else if (input$time_scale == "Quarterly") {
+          paste("incremental_triangle_Quarterly ", Sys.Date(), ".csv", sep = "")
+         } else {
+          paste("incremental_triangle_Monthly ", Sys.Date(), ".csv", sep = "")
+         }
       },
       content = function(file) {
         req(triangle_data())
