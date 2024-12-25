@@ -104,7 +104,7 @@ body {
     justify-content: center; /* Align items to the start of the container */
     margin-left: 0; /* Match the sidebar width */
     position: relative; /* Ensure the container is positioned correctly */
-    width: 245px; /* Match the width of the sidebar-footer */
+    width: 255px; /* Match the width of the sidebar-footer */
     text-align: center; /* Center the title text */
     padding: 5px 0; /* Add padding to give some space around the title */
     background-color: #fff; /* Light background color to distinguish the title area */
@@ -139,7 +139,7 @@ body {
 .menu-container {
     display: block; /* Align items to the start of the container */
     position: fixed; /* Ensure the container is positioned correctly */    
-    top: 180px;  /* Aligns to the top of the viewport */
+    top: 220px;  /* Aligns to the top of the viewport */
     left: 0; 
     width: 250px; /* Match the width of the sidebar-footer */
     padding: 10px 5px; /* Add padding to give some space around the title */
@@ -239,6 +239,10 @@ body {
   white-space: pre-wrap; /* Maintains wrapping of lines */
 }
 
+/* Target the menu item text in the sidebar */
+.nav-sidebar .nav-item > .nav-link > p {
+  font-size: 14px !important;
+}
 
 
 
@@ -306,6 +310,11 @@ body {
       width: 100%; /* Full width to accommodate smaller screen */
   }
 
+  /* Target the menu item text in the sidebar */
+  .nav-sidebar .nav-item > .nav-link > p {
+    font-size: 10px !important;
+  }
+
 }
 
 @media (max-width: 480px) { /* Adjusts for mobile devices */
@@ -356,6 +365,11 @@ body {
       padding: 5px 0; /* Minimize padding to maximize space */
       position: static; /* Make it static to flow with the document structure */
       width: 100%; /* Ensure it spans the full width */
+  }
+
+  /* Target the menu item text in the sidebar */
+  .nav-sidebar .nav-item > .nav-link > p {
+    font-size: 8px !important;
   }
 
 
