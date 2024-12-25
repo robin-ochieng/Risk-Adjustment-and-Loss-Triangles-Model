@@ -19,7 +19,7 @@ source("modules/dataInsightsModule.R", local = TRUE)[1]
 source("modules/valDataModule.R", local = TRUE)[1]
 source("modules/cummulativeTriangleModule.R", local = TRUE)[1]
 source("modules/incrementalTriangleModule.R", local = TRUE)[1]
-source("modules/boostrappingModule.R", local = TRUE)[1]
+source("modules/bootstrappingModule.R", local = TRUE)[1]
 source("modules/riskMarginResultsModule.R", local = TRUE)[1]
 
 # Define a custom theme using bslib
