@@ -9,25 +9,38 @@ dataInsightsUI <- function(id) {
             valueBoxOutput(ns("total_claims_box"))
         ),
         fluidRow(
-            bs4Card(
-                title = "Statistical Summary of Gross Paid (KES 'Million)",
-                status = "white",
-                solidHeader = TRUE,
-                width = 12,
-                DTOutput(ns("stat_summary_table"))
-            )
+          tabBox( 
+            solidHeader = TRUE,
+            selected = "Distribution of Claims by Loss Date",
+            status = "primary",
+            type = "tabs",
+            width = 12,
+            id = ns("date_tabs"),
+            tabPanel("Gross Paid by Paid Date", plotlyOutput(ns("grossPaidbyPaidDate")) %>% withSpinner(type = 5)),
+            tabPanel("Distribution of Claims by Loss Date", plotlyOutput(ns("claimsbyLossDate")) %>% withSpinner(type = 5)),
+            tabPanel("Distribution of Claims by Paid Date", plotlyOutput(ns("claimsbyPaidDate")) %>% withSpinner(type = 5))
+          )
         ),
         fluidRow(
             tabBox( 
                 solidHeader = TRUE,
                 selected = "Sum of Gross Paid by Statutory Class",
-                status = "white",
+                status = "primary",
                 type = "tabs",
-                height = "500px",
                 width = 12,
                 id = ns("grosspaid_tabs"),
-                tabPanel("Sum of Gross Paid by Statutory Class", plotlyOutput(ns("gross_paid_plot")) %>% withSpinner(type = 6)),
-                tabPanel("Count of Gross Paid by Statutory Class", plotOutput(ns("claim_count_plot")) %>% withSpinner(type = 6))
+                tabPanel("Distribution of Gross Paid by Statutory Class", plotOutput(ns("claim_count_plot")) %>% withSpinner(type = 6)),
+                tabPanel("Sum of Gross Paid by Statutory Class", plotlyOutput(ns("gross_paid_plot")) %>% withSpinner(type = 6))
+                
+            )
+        ),
+        fluidRow(
+            bs4Card(
+                title = "Statistical Summary of Gross Paid (KES 'Million)",
+                status = "primary",
+                solidHeader = TRUE,
+                width = 12,
+                DTOutput(ns("stat_summary_table"))
             )
         )
     )
@@ -46,21 +59,25 @@ dataInsightsServer <- function(id, data) {
       valueBox(
         formatC(total_gross_paid, format = "f", big.mark = ",", digits = 0),
         "Total Gross Paid (KES)",
-        icon = icon("money-bill-alt"),
-        color = "white"
+        icon = NULL,
+        color = "primary"
       )
     })
 
     # Calculate Average Days to Pay with formatting (although unusual for days)
     output$avg_days_to_pay_box <- renderValueBox({
         req(data())
-        avg_days <- mean(data()$Paid_Date - data()$Loss_Date, na.rm = TRUE)
-        formatted_avg_days <- formatC(avg_days, format = "f", big.mark = ",", digits = 1)
+        avg_days  <- data() %>%
+        filter(!is.na(Loss_Date) & !is.na(Paid_Date)) %>%
+        summarise(avg_days = mean(Paid_Date - Loss_Date, na.rm = TRUE)) %>%
+        pull(avg_days)
+
+        formatted_avg_days <- formatC(avg_days, format = "f", big.mark = ",", digits = 0)
         valueBox(
-            formatted_avg_days,
-            "Average Days to Pay",
-            icon = icon("calendar-alt"),
-            color = "white"
+            paste(formatted_avg_days, " Days"),
+            "Average Days to Pay Claims",
+            icon = NULL,
+            color = "primary"
         )
     })
 
@@ -74,8 +91,8 @@ dataInsightsServer <- function(id, data) {
         valueBox(
             formatted_claims,
             "Total Claims",
-            icon = icon("clipboard-list"),
-            color = "white"
+            icon = NULL,
+            color = "primary"
         )
     })
 
@@ -102,8 +119,8 @@ dataInsightsServer <- function(id, data) {
             legend.position = "none",
             panel.grid.major = element_blank(),
             panel.grid.minor = element_blank(),
-            panel.grid.major.x = element_line(color = "lightgrey", size = 0.5), # Add vertical major grid lines
-            panel.grid.minor.x = element_line(color = "lightgrey", size = 0.25),
+            panel.grid.major.x = element_blank(), # Add vertical major grid lines
+            panel.grid.minor.x = element_blank(),
             axis.title.x = element_text(angle = 0, hjust = 0.5, size = 12),
             axis.title.y = element_text(angle = 90, vjust = 0.5, size = 12),
             axis.text.x = element_text(color = "black", size = 10),  # Increased font size for X-axis text
@@ -113,7 +130,7 @@ dataInsightsServer <- function(id, data) {
         labs(
             x = "Statutory Class",
             y = "Count",
-            title = "Claim Count by Statutory Class"
+            title = "Distribution of Claims by Statutory Class"
         )
     })
     
@@ -179,6 +196,65 @@ dataInsightsServer <- function(id, data) {
                                 "}"
                               )))
     })
+
+  output$grossPaidbyPaidDate <- renderPlotly({
+    req(data())
+    data <- data() %>%
+      arrange(Paid_Date)
+    plot_ly(data, x = ~Paid_Date, y = ~Gross_Paid, type = 'scatter', mode = 'lines+markers',
+            line = list(color = '#1CA4F8'), marker = list(color = '#0d6efd')) %>%
+      layout(
+        title = "Distribution of Gross Paid by Paid Date",
+        xaxis = list(title = "Paid Date", tickfont = list(size = 10, color = "#333333")),
+        yaxis = list(title = "Gross Paid", tickfont = list(size = 10, color = "#333333")),
+        font = list(family = "Mulish", color = "#333333"),
+        plot_bgcolor = "white",
+        paper_bgcolor = "white"
+      )
+  })
+
+    output$claimsbyLossDate <- renderPlotly({
+      req(data())
+      data <- data() %>%
+        mutate(Loss_Date = as.Date(Loss_Date, format = "%Y-%m-%d")) %>%
+        group_by(Loss_Date) %>%
+        dplyr::summarize(Count = n()) %>%
+        arrange(Loss_Date)
+
+      plot_ly(data, x = ~Loss_Date, y = ~Count, type = 'scatter', mode = 'lines+markers',
+              line = list(color = '#1CA4F8'), marker = list(color = '#0d6efd')) %>%
+        layout(
+          title = "Distribution of Claims by Loss Date",
+          xaxis = list(title = "Loss Date", tickfont = list(size = 10, color = "#333333")),
+          yaxis = list(title = "Count of Claims", tickfont = list(size = 10, color = "#333333")),
+          font = list(family = "Mulish", color = "#333333"),
+          plot_bgcolor = "white",
+          paper_bgcolor = "white"
+        )
+    })
+
+
+    output$claimsbyPaidDate <- renderPlotly({
+      req(data())
+      data <- data() %>%
+        mutate(Paid_Date = as.Date(Paid_Date, format = "%Y-%m-%d")) %>%
+        group_by(Paid_Date) %>%
+        dplyr::summarize(Count = n()) %>%
+        arrange(Paid_Date)
+
+      plot_ly(data, x = ~Paid_Date, y = ~Count, type = 'scatter', mode = 'lines+markers',
+              line = list(color = '#1CA4F8'), marker = list(color = '#0d6efd')) %>%
+        layout(
+          title = "Distribution of Claims by Paid Date",
+          xaxis = list(title = "Paid Date", tickfont = list(size = 10, color = "#333333")),
+          yaxis = list(title = "Count of Claims", tickfont = list(size = 10, color = "#333333")),
+          font = list(family = "Mulish", color = "#333333"),
+          plot_bgcolor = "white",
+          paper_bgcolor = "white"
+        )
+    })
+
+
   })
 }
 
