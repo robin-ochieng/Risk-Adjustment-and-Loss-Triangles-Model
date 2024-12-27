@@ -24,13 +24,13 @@ dataInsightsUI <- function(id) {
         fluidRow(
             tabBox( 
                 solidHeader = TRUE,
-                selected = "Sum of Gross Paid by Statutory Class",
+                selected = "Distribution of Gross Paid by Statutory Class",
                 status = "primary",
                 type = "tabs",
                 width = 12,
                 id = ns("grosspaid_tabs"),
-                tabPanel("Distribution of Gross Paid by Statutory Class", plotOutput(ns("claim_count_plot")) %>% withSpinner(type = 6)),
-                tabPanel("Sum of Gross Paid by Statutory Class", plotlyOutput(ns("gross_paid_plot")) %>% withSpinner(type = 6))
+                tabPanel("Distribution of Statutory Class", plotOutput(ns("claim_count_plot")) %>% withSpinner(type = 6)),
+                tabPanel("Distribution of Gross Paid by Statutory Class", plotlyOutput(ns("gross_paid_plot")) %>% withSpinner(type = 6))
                 
             )
         ),
