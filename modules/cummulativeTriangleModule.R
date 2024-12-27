@@ -74,8 +74,8 @@ cumTriServer <- function(id, data) {
         ns("loss_year_range"),
         "Select Loss Year Range for the Cummulative Triangle",
         min = min(available_years),
-        max = max(available_years),
-        value = c(max(available_years) - 5, max(available_years)),
+        max = max(available_years) + 1,
+        value = c(max(available_years) - 4, max(available_years) + 1),
         step = 1,
         sep = ""  
       )
