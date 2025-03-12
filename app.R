@@ -31,8 +31,8 @@ my_theme <- bs_theme(
   base_font = font_google("Mulish"),
   heading_font = font_google("Mulish"),
   code_font = font_google("Mulish"),
-  navbar_bg = "#333333",  # Darker background for the navbar for contrast
-  navbar_fg = "#ffffff"  # White text color for readability
+  navbar_bg = "#333333",  
+  navbar_fg = "#ffffff" 
 )
 
 # UI
@@ -58,15 +58,15 @@ ui <- bs4DashPage(
     skin = "light",
     tags$div(
       class = "menu-container",
-    bs4SidebarMenu(
-      bs4SidebarMenuItem("Data Overview", tabName = "data_overview", icon = icon("table")),
-      bs4SidebarMenuItem("Claims Dashboard", tabName = "data_insights", icon = icon("chart-bar")),
-      bs4SidebarMenuItem("Valuation Data", tabName = "valuation_data", icon = icon("calculator")),
-      bs4SidebarMenuItem("Incremental Triangles", tabName = "incremental_triangles", icon = icon("shapes")),
-      bs4SidebarMenuItem("Cumulative Triangles", tabName = "cumulative_triangles", icon = icon("shapes")),
-      bs4SidebarMenuItem("Bootstrapping Results", tabName = "bootstrapping_results", icon = icon("sync-alt")),
-      bs4SidebarMenuItem("Risk Margin Download", tabName = "risk_margin_download", icon = icon("download"))
-    )),
+      bs4SidebarMenu(
+        bs4SidebarMenuItem("Data Overview", tabName = "data_overview", icon = icon("table")),
+        bs4SidebarMenuItem("Claims Dashboard", tabName = "data_insights", icon = icon("chart-bar")),
+        bs4SidebarMenuItem("Valuation Data", tabName = "valuation_data", icon = icon("calculator")),
+        bs4SidebarMenuItem("Incremental Triangles", tabName = "incremental_triangles", icon = icon("shapes")),
+        bs4SidebarMenuItem("Cumulative Triangles", tabName = "cumulative_triangles", icon = icon("shapes")),
+        bs4SidebarMenuItem("Bootstrapping Results", tabName = "bootstrapping_results", icon = icon("sync-alt")),
+        bs4SidebarMenuItem("Risk Margin Download", tabName = "risk_margin_download", icon = icon("download"))
+      )),
     div(class = "sidebar-logo",
         img(src = "images/kenbright.png")
     )
@@ -120,24 +120,24 @@ ui <- bs4DashPage(
 
 # Server
 server <- function(input, output, session) {
-
-   data <- dataOverviewServer("data_overview_id") 
-
-   dataInsightsServer("data_insights_id", data)
   
-   valDataServer("valuation_data_id", data)
-   
-   incrTriServer("incremental_triangles_id", data)
+  data <- dataOverviewServer("data_overview_id") 
   
-   cumTriServer("cumulative_triangles_id", data)
-
-   boot_out <- bootstrappingServer("bootstrapping_id", data)
-
-   risk_margin_data <- boot_out$risk_margin_data
-
-   all_boot_results <- boot_out$bootResults
-
-   riskMarginResultsServer("riskMarginResults_id", risk_margin_data, all_boot_results)
+  dataInsightsServer("data_insights_id", data)
+  
+  valDataServer("valuation_data_id", data)
+  
+  incrTriServer("incremental_triangles_id", data)
+  
+  cumTriServer("cumulative_triangles_id", data)
+  
+  boot_out <- bootstrappingServer("bootstrapping_id", data)
+  
+  risk_margin_data <- boot_out$risk_margin_data
+  
+  all_boot_results <- boot_out$bootResults
+  
+  riskMarginResultsServer("riskMarginResults_id", risk_margin_data, all_boot_results)
 }
 
 # Run the application
