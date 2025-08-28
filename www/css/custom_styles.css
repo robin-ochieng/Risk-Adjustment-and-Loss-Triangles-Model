@@ -2,7 +2,13 @@
 /* Apply the Mulish font to the entire body of the app */
 body {
     font-family: 'Mulish', sans-serif; /* Use the Mulish font for all text */
-    background-color: #f4f4f4; /* Optional: set a background color */
+  background-color: #F6F8FB; /* Fallback background color */
+}
+
+/* App background image (replace app-bg.svg with your final image when ready) */
+.content-wrapper {
+  background: url("../images/app-bg.jpg") no-repeat center center fixed;
+  background-size: cover; /* scale to fill without distortion */
 }
 
 /* General style for buttons used in the control bar */
@@ -19,6 +25,15 @@ body {
     border-radius: 10px; /* Round the corners of the card */
     color: black; /* Set the text color to white */
     margin-bottom: 20px; /* Add space below the card */
+}
+
+/* Data Overview card background with 94% opacity */
+.data-overview-card {
+  background-color: rgba(241, 242, 242, 0.94) !important; /* #f1f2f2 @ 94% */
+  border: none;
+}
+.data-overview-card .card-header {
+  background-color: transparent !important;
 }
 
 /* Ensure that selectInput elements inside .card-custom have appropriate styles */
@@ -74,27 +89,31 @@ body {
     top: 0;
     left: 0;
     width: auto;
-    text-align: centre;
-    padding: 10px 0; /* Add padding to give some space around the logo */
-    background-color: #fff; /* Light background color to distinguish the logo area */
+    text-align: center; /* fix typo */
+    padding: 0; /* remove pill spacing */
+    background: transparent; /* remove pill background */
+    box-shadow: none; /* ensure no shadow */
     z-index: 1050;
 }
   
   .sidebar-logo img {
-    height: 70px; /* Adjust the height of the logo as needed */
+  height: 28px; /* logo height (default) */
     max-width: 100%; /* Ensure the logo scales within the container */
-    background-color: #ffffff; /* Optional: Add a background behind the logo */
-    border-radius: 8px; /* Optional: Add rounded corners for a modern look */
-    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for a more professional look */
-    padding: 10px; /* Optional: Add a slight shadow around the logo */
+    background: transparent; /* remove background */
+    border-radius: 0; /* remove rounding */
+    box-shadow: none; /* remove shadow */
+    padding: 0; /* remove extra padding */
+    margin: 8px 12px; /* add some breathing room from edges */
+    display: block; /* avoid inline spacing quirks */
+    object-fit: contain; /* scale nicely if constrained */
   }
 
 
   /* Set the background color of the sidebar */
 .main-sidebar {
-    background-color: #fff !important;  /* Apply the desired color */
-    box-shadow: none !important;
-    padding-top: 80px;
+  background-color: #0137A6 !important;  /* Brand blue */
+  box-shadow: none !important;
+  padding-top: 80px;
   }
   
 /* Style container to remove list style and position correctly */
@@ -104,21 +123,22 @@ body {
     justify-content: center; /* Align items to the start of the container */
     margin-left: 0; /* Match the sidebar width */
     position: relative; /* Ensure the container is positioned correctly */
-    width: 255px; /* Match the width of the sidebar-footer */
+  width: auto; /* allow title to size naturally */
     text-align: center; /* Center the title text */
-    padding: 5px 0; /* Add padding to give some space around the title */
-    background-color: #fff; /* Light background color to distinguish the title area */
-    border-radius: 8px; /* Optional: Add rounded corners for a modern look */
-    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for a more professional look */
+  padding: 0; /* remove pill padding (fix typo) */
+  background: transparent; /* remove pill background */
+  border-radius: 0; /* remove rounding */
+  box-shadow: none; /* remove shadow */
+  list-style: none; /* ensure no bullet from li */
 
 }
 
 /* Style for the header title */
 .header-title {
-    font-size: 18px;
-    font-weight: bold;
-    color: #0137A6;
-    padding-left: 5px; /* Space after the vertical line */
+  font-size: 29px;
+  font-weight: 600; /* Semi-bold */
+  color: #0137A6;
+  padding-left: 5px; /* Space after the vertical line */
 }
 
 /* Footer styling */
@@ -139,14 +159,34 @@ body {
 .menu-container {
     display: block; /* Align items to the start of the container */
     position: fixed; /* Ensure the container is positioned correctly */    
-    top: 220px;  /* Aligns to the top of the viewport */
+    top: 170px;  /* Aligns to the top of the viewport */
     left: 0; 
     width: 250px; /* Match the width of the sidebar-footer */
     padding: 10px 5px; /* Add padding to give some space around the title */
-    background-color: #fff; /* Light background color to distinguish the title area */
-    border-radius: 8px; /* Optional: Add rounded corners for a modern look */
+    background: transparent; /* match sidebar background */
+    border-radius: 0; /* remove rounding */
     font-family: 'Mulish', sans-serif;
     z-index: 1050;
+}
+
+/* Sidebar menu item text and icons to white */
+.nav-sidebar .nav-link {
+  color: #FFFFFF !important;
+}
+.nav-sidebar .nav-link p,
+.nav-sidebar .nav-link .nav-icon,
+.nav-sidebar .nav-link i {
+  color: #FFFFFF !important;
+}
+
+/* Hover/active states for better affordance on dark sidebar */
+.nav-sidebar .nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #FFFFFF !important;
+}
+.nav-sidebar .nav-link.active {
+  background-color: rgba(255, 255, 255, 0.16);
+  color: #FFFFFF !important;
 }
 
 
@@ -156,24 +196,97 @@ body {
 
 /* Style for upload container */
 .upload-container {
-    background-color: #FFFFFF;
+  background-color: transparent; /* transparent background as requested */
     padding: 20px;
     border-radius: 12px;
-    border: 1px solid #d1d1d1; 
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid #0137A6; /* brand border */
+  box-shadow: none; /* remove shadow */
     margin-bottom: 16px;
     color: #000000;
+  display: flex;               /* center content vertically */
+  flex-direction: column;      /* stack elements */
+  justify-content: center;     /* vertical center */
+  align-items: center;         /* horizontal center */
+  text-align: center;          /* center text */
+  height: 100%;                /* fill column height for centering */
   }
 
   /* Style for upload container */
 .upload-container1 {
-  background-color: #FFFFFF;
+  background-color: transparent; /* transparent background as requested */
   padding: 20px;
   border-radius: 12px;
-  border: 1px solid #d1d1d1; 
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid #0137A6; /* brand border */
+  box-shadow: none; /* remove shadow */
   margin-bottom: 16px;
   color: #000000;
+  display: flex;               /* center content vertically */
+  flex-direction: column;      /* stack elements */
+  justify-content: center;     /* vertical center */
+  align-items: center;         /* horizontal center */
+  text-align: center;          /* center text */
+  height: 100%;                /* fill column height for centering */
+}
+
+/* Instructional card enhanced styling */
+.instruction-card {
+  background-color: transparent; /* keep transparent as requested */
+  border: 1px solid #0137A6; /* brand border */
+  border-radius: 12px;
+  padding: 24px 24px 18px;
+  text-align: left; /* ensure inner content aligns left */
+}
+.instruction-title {
+  font-family: 'Mulish', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #0137A6;
+  margin: 0 0 8px 0;
+}
+.instruction-subtitle {
+  font-size: 12px;
+  font-weight: 500;
+  color: #3a5a91; /* softer blue for secondary text */
+  margin: 0 0 14px 0;
+}
+.instruction-section-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #0137A6;
+  margin: 6px 0 8px;
+}
+.instruction-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr; /* single column for clarity */
+  row-gap: 8px;
+}
+.instruction-item {
+  display: grid;
+  grid-template-columns: 24px 1fr; /* icon + text, consistent width */
+  align-items: start;
+  column-gap: 10px;
+}
+.instruction-icon {
+  color: #935f03 !important; /* requested icon color */
+  font-size: 14px !important; /* uniform size */
+  line-height: 1;
+  margin-top: 2px; /* align visually with text */
+}
+.instruction-text {
+  font-size: 12px; /* base body size; if needed, adjust */
+  color: #1d3b6b;
+}
+.instruction-text strong {
+  display: inline-block;
+  width: 14ch; /* align label column with the longest name */
+  white-space: nowrap;
+}
+.instruction-text strong {
+  font-weight: 700;
+  color: #0137A6;
 }
 
   /* Style for the list items */
@@ -181,11 +294,18 @@ body {
   margin-bottom: 10px;       /* Add consistent spacing between list items */
   display: flex;            /* Align icon and text horizontally */
   align-items: center;      /* Vertically align icon with text */
+  justify-content: center;  /* Center the row horizontally */
 }
 
 /* Style for sub-list items */
 .upload-container .sub-list-item .custom-list-item {
   margin-bottom: 5px;       /* Slightly reduce spacing for sub-list items */
+}
+
+/* Remove default UL left padding so centered content is visually centered */
+.upload-container ul.list-item,
+.upload-container ul.sub-list-item {
+  padding-left: 0;
 }
 
 
@@ -196,27 +316,27 @@ body {
   
   /* Style for upload file input label */
   .upload-label {
-    color: #0137A6;
+  color: #935f03;
     font-size: 14px;
   }
   
   /* Style for instruction header */
   .instruction-header {
-    font-weight: bold;
-    font-size: 14px;
+  font-weight: bold;
+  font-size: 12px; /* requested title size */
     margin-top: 10px;
-    color: #0137A6;
+    color: #935f03;
     margin-bottom: 10px; 
   }
   
   
   /* Style for list item font sizes */
   .list-item {
-    font-size: 14px;
+  font-size: 10px; /* requested content size */
   }
   
   .sub-list-item {
-    font-size: 12px;
+  font-size: 10px; /* match content size */
   }
   
 /* -------------Button styling------------------------------------------------------------------------------ */
@@ -228,6 +348,7 @@ body {
   
   .custom-list-item {
     color: #0137A6;
+  font-size: 10px; /* normalize content size */
 }
 
 
@@ -302,7 +423,7 @@ body {
   }
 
   .sidebar-logo img {
-      height: 50px; /* Slightly reduce the logo size for medium devices */
+  height: 32px; /* further reduce the logo size for medium devices */
   }
   .sidebar-logo {
       padding: 5px 0; /* Reduce padding to save space */
@@ -359,7 +480,7 @@ body {
 }
 
   .sidebar-logo img {
-      height: 40px; /* Further reduce the logo size for small devices */
+  height: 28px; /* further reduce the logo size for small devices */
   }
   .sidebar-logo {
       padding: 5px 0; /* Minimize padding to maximize space */

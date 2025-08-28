@@ -3,51 +3,66 @@ dataOverviewUI <- function(id) {
   ns <- NS(id)
   tagList(
       fluidRow(
-          hr(),
-      div(
-        column(12,
-        br(),
-        br(),
-        br(),
-        class = "upload-container1",
-        fileInput(ns("file"), 
-          label = tags$span("Upload Claims Data as an Excel or CSV File", class = "upload-label"),
-          accept = c(".xlsx", ".xls", ".csv")
+        class = "top-panels align-items-stretch",
+        column(6, class = "d-flex",
+          div(
+            class = "upload-container1 flex-fill",
+            fileInput(ns("file"), 
+              label = tags$span("Upload Claims Data as an Excel or CSV File", class = "upload-label"),
+              accept = c(".xlsx", ".xls", ".csv")
+            )
+          )
         ),
-        br(),
-        br())
-        ),
-        hr(),
-        br(), 
-      div(
-          class = "upload-container",
-          tags$p(class = "instruction-header", "How to Prepare Data before Upload:"),
-          tags$ul(
-              class = "list-item",
-          tags$li(
-              class = "custom-list-item", "Ensure the data format is either a CSV or Excel file."),
-          tags$li(
-              class = "custom-list-item", "Dataset Variable Definition:-"),
-          tags$ul(
-              class = "sub-list-item" ,
-              tags$li(class = "custom-list-item", icon("tag"), tags$b("Claim_No: - "), " Unique identifier for each claim."),
-              tags$li(class = "custom-list-item", icon("calendar-day"), tags$b("Loss_Date: - "), " Date when the loss occurred."),
-              tags$li(class = "custom-list-item", icon("calendar-check"), tags$b("Paid_Date: - "), " Date when the claim payment was made."),
-              tags$li(class = "custom-list-item", icon("money-bill-wave"), tags$b("Gross_Paid: - "), " Total amount paid for the claim (KES)."),
-              tags$li(class = "custom-list-item", icon("layer-group"), tags$b("Statutory_Class: - "), " The Class of Business.")
-                  )
+        column(6, class = "d-flex",
+          div(
+            class = "upload-container instruction-card flex-fill",
+            tags$div(class = "instruction-title", "How to Prepare Data before Upload"),
+            tags$p(class = "instruction-subtitle", "Ensure the data format is either a CSV or Excel file."),
+            tags$div(class = "instruction-section-label", "Dataset Variable Definitions"),
+            tags$ul(class = "instruction-list",
+              tags$li(class = "instruction-item",
+                icon("tag", class = "instruction-icon"),
+                tags$span(class = "instruction-text",
+                  tags$strong("Claim_No"), tags$span(": "), "Unique identifier for each claim."
+                )
+              ),
+              tags$li(class = "instruction-item",
+                icon("calendar-day", class = "instruction-icon"),
+                tags$span(class = "instruction-text",
+                  tags$strong("Loss_Date"), tags$span(": "), "Date when the loss occurred."
+                )
+              ),
+              tags$li(class = "instruction-item",
+                icon("calendar-check", class = "instruction-icon"),
+                tags$span(class = "instruction-text",
+                  tags$strong("Paid_Date"), tags$span(": "), "Date when the claim payment was made."
+                )
+              ),
+              tags$li(class = "instruction-item",
+                icon("money-bill-wave", class = "instruction-icon"),
+                tags$span(class = "instruction-text",
+                  tags$strong("Gross_Paid"), tags$span(": "), "Total amount paid for the claim (KES)."
+                )
+              ),
+              tags$li(class = "instruction-item",
+                icon("layer-group", class = "instruction-icon"),
+                tags$span(class = "instruction-text",
+                  tags$strong("Statutory_Class"), tags$span(": "), "The Class of Business."
+                )
               )
-          ),
-        hr(),
-        br(),
-          bs4Card(
-            title = "Data Overview",
-            status = "white",
-            solidHeader = TRUE,
-            width = 12,
-            DTOutput(ns("data_table"))
-          )          
+            )
+          )
         )
+      ),
+      br(),
+      bs4Card(
+        title = "Data Overview",
+        status = "white",
+        solidHeader = TRUE,
+  class = "data-overview-card",
+        width = 12,
+        DTOutput(ns("data_table"))
+      )
   )
 }
 
