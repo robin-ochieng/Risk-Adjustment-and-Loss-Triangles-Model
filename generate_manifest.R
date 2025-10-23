@@ -29,7 +29,7 @@ generate_manifest <- function(app_file = "app.R",
       appMode = app_mode,
       contentCategory = NULL,
       python = NULL,
-      quarto = NULL
+      quarto = NA
     )
     
     cat("✓ manifest.json successfully created!\n\n")
