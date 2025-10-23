@@ -1,0 +1,12 @@
+name: RiskMarginModel
+title: RiskMarginModel
+username: kenbright1
+account: kenbright1
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 15135902
+bundleId: 10834985
+url: https://kenbright1.shinyapps.io/RiskMarginModel/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
