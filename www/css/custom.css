@@ -1,0 +1,51 @@
+/* custom.css - application wide background & readability adjustments */
+
+/* Apply background to the main content wrapper (bs4Dash) */
+.content-wrapper.app-bg, body.app-bg { /* body fallback if .content-wrapper not yet available */
+  /* Fallback raster first */
+  background: url("../images/app-bg.jpg") no-repeat center center fixed;
+  background-size: cover;
+  min-height: 100vh;
+  /* SVG overrides for capable browsers */
+  background-image: url("../images/bg.svg"), url("../images/app-bg.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+/* Optional overlay for subtle texture & to maintain readability */
+.app-bg::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(rgba(255,255,255,0.18), rgba(255,255,255,0.04)); /* slightly stronger for lighter bg */
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Ensure stacking context so overlay sits beneath content */
+.content-wrapper.app-bg > * { position: relative; z-index: 1; }
+
+/* Strengthen card readability if background becomes busy */
+.card, .box, .info-box, .callout, .small-box {
+  background-color: rgba(255,255,255,0.9);
+  backdrop-filter: blur(3px) saturate(120%);
+}
+
+/* Avoid altering the left sidebar appearance */
+.main-sidebar { z-index: 1035; }
+
+/* Responsive: allow background to scroll on very small devices to improve perf */
+@media (max-width: 600px) {
+  .content-wrapper.app-bg, body.app-bg {
+    background-attachment: scroll; /* reduce jank on mobile */
+  }
+}
+
+/* High contrast preference handling */
+@media (prefers-contrast: more) {
+  .card, .box, .info-box, .callout, .small-box {
+    background-color: #ffffff; /* solid for maximum readability */
+    backdrop-filter: none;
+  }
+}

@@ -72,11 +72,15 @@ ui <- bs4DashPage(
     )
   ),
   body = bs4DashBody(
+    class = "app-bg",
     tags$head(
       includeCSS("www/css/custom_styles.css"),
+      tags$link(rel = "stylesheet", href = "css/custom.css"),
       tags$link(href = "https://fonts.googleapis.com/css?family=Mulish", rel = "stylesheet"),
       tags$script(src = "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"),
-      tags$link(rel = "shortcut icon", href = "favicon/kenbright.ico", type = "image/x-icon")
+      tags$link(rel = "shortcut icon", href = "favicon/kenbright.ico", type = "image/x-icon"),
+      # Fallback script: if .content-wrapper not yet has class, add after ready
+      tags$script(HTML('document.addEventListener("DOMContentLoaded",function(){var cw=document.querySelector(".content-wrapper"); if(cw && !cw.classList.contains("app-bg")){cw.classList.add("app-bg");}});'))
     ),
     bs4TabItems(
       # Data Overview Tab

@@ -5,11 +5,7 @@ body {
   background-color: #F6F8FB; /* Fallback background color */
 }
 
-/* App background image (replace app-bg.svg with your final image when ready) */
-.content-wrapper {
-  background: url("../images/app-bg.jpg") no-repeat center center fixed;
-  background-size: cover; /* scale to fill without distortion */
-}
+/* Previous decorative background removed; new background handled in css/custom.css */
 
 /* General style for buttons used in the control bar */
 .btn-primary {
@@ -111,10 +107,56 @@ body {
 
   /* Set the background color of the sidebar */
 .main-sidebar {
-  background-color: #0137A6 !important;  /* Brand blue */
+  /* Lighter professional gradient: base brand blue transitioning to softer hues */
+  background: linear-gradient(180deg, #0137A6 0%, #3A66D3 55%, #EAF0FA 120%) !important;
   box-shadow: none !important;
-  padding-top: 80px;
-  }
+  padding-top: 90px; /* slightly more to balance new logo spacing */
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle overlay texture (optional, very faint) */
+.main-sidebar::before {
+  content: "";
+  position: absolute; inset: 0;
+  background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.18), rgba(255,255,255,0));
+  pointer-events: none;
+}
+
+/* Logo positioning refinement */
+.sidebar-logo { margin-top: 6px; }
+.sidebar-logo img { margin-top: 10px; }
+
+/* Alternative hook if bs4Dash renders brand-link */
+.main-sidebar .brand-link { padding-top: 20px !important; }
+
+/* Active & hover states remain clear on lighter gradient */
+.nav-sidebar .nav-link.active {
+  background: linear-gradient(90deg, rgba(255,255,255,0.28), rgba(255,255,255,0.08));
+  border-left: 4px solid #ffffff;
+  font-weight: 600;
+}
+.nav-sidebar .nav-link:hover { background-color: rgba(255,255,255,0.14); }
+
+/* Maintain white icons/text for contrast */
+.nav-sidebar .nav-link, .nav-sidebar .nav-link p, .nav-sidebar .nav-link .nav-icon, .nav-sidebar .nav-link i {
+  color: #FFFFFF !important;
+}
+
+/* Top navbar gradient complementing light background */
+.main-header.navbar, .main-header { /* bs4Dash header selectors */
+  background: linear-gradient(90deg, #ffffff 0%, #f5f3ff 55%, #e6f5fa 100%) !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.header-title { color: #01315E; }
+
+/* Responsive adjustments for narrow widths */
+@media (max-width: 768px) {
+  .main-sidebar { background: linear-gradient(200deg, #0137A6 0%, #3A66D3 70%, #EAF0FA 130%) !important; }
+  .sidebar-logo img { margin-top: 4px; }
+  .main-header.navbar { background: linear-gradient(90deg, #ffffff 0%, #f5f3ff 70%, #ffffff 100%) !important; }
+}
   
 /* Style container to remove list style and position correctly */
 .header-title-container {

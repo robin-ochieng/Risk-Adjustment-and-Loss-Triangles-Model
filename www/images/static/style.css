@@ -1,0 +1,233 @@
+/* Custom styles for Insurance Act Chatbot (Premium UI) */
+
+/* Import Tailwind CSS */
+@import url('https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css');
+
+/* Global */
+:root {
+    --brand-1: #4f46e5; /* indigo-600 */
+    --brand-2: #7c3aed; /* violet-600 */
+    --brand-3: #22d3ee; /* cyan-400 */
+    --ink-1: #111827;   /* gray-900 */
+    --ink-2: #374151;   /* gray-700 */
+    --ink-3: #6b7280;   /* gray-500 */
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    color: var(--ink-1);
+    background: #0b1022 url('static/bg.svg') no-repeat center center fixed;
+    background-size: cover;
+}
+
+.main-container {
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: saturate(120%) blur(14px);
+    border-radius: 24px;
+    box-shadow: none; /* removed outer container shadow */
+    margin: clamp(1rem, 3vh, 2rem) auto;
+    max-width: 1200px;
+    padding: clamp(1rem, 3vw, 2rem);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+.app-header {
+    background: linear-gradient(90deg, var(--brand-1), var(--brand-2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 900;
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    text-align: center;
+    margin-bottom: 1.25rem;
+    letter-spacing: 0.2px;
+}
+
+.question-container {
+    background: linear-gradient(180deg, rgba(248, 250, 252, 0.9), rgba(248, 250, 252, 0.75));
+    border: 2px solid #e2e8f0;
+    border-radius: 18px;
+    padding: clamp(1rem, 2.5vw, 1.5rem);
+    margin-bottom: 1.25rem;
+    transition: all 0.25s ease;
+}
+
+.question-container:focus-within {
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.form-control {
+    border: none !important;
+    background: transparent !important;
+    font-size: 1.05rem;
+    line-height: 1.65;
+    resize: vertical;
+}
+
+.form-control:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.ask-button {
+    background: linear-gradient(135deg, var(--brand-1), var(--brand-2)) !important;
+    border: none !important;
+    border-radius: 14px !important;
+    padding: 12px 32px !important;
+    font-weight: 700 !important;
+    font-size: 1.05rem !important;
+    color: white !important;
+    transition: all 0.25s ease !important;
+    box-shadow: 0 8px 25px rgba(79, 70, 229, 0.35) !important;
+}
+
+.ask-button:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 25px rgba(79, 70, 229, 0.4) !important;
+}
+
+.ask-button:active {
+    transform: translateY(0) !important;
+}
+
+.result-section {
+    background: rgba(255, 255, 255, 0.96);
+    border-radius: 18px;
+    padding: clamp(1rem, 2.5vw, 1.5rem);
+    margin-bottom: 1.25rem;
+    box-shadow: 0 10px 20px rgba(31, 41, 55, 0.08);
+    border: 1px solid #e5e7eb;
+}
+
+.result-header {
+    color: #374151;
+    font-weight: 700;
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.result-content {
+    background: #f9fafb !important;
+    border: 1px solid #e5e7eb !important;
+    border-radius: 14px !important;
+    padding: 1.1rem !important;
+    font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace !important;
+    font-size: 0.96rem !important;
+    line-height: 1.7 !important;
+    white-space: pre-wrap !important;
+    word-wrap: break-word !important;
+    max-height: 420px;
+    overflow-y: auto;
+}
+
+.loading-spinner {
+    display: inline-block;
+    width: 1.25rem;
+    height: 1.25rem;
+    border: 2px solid #e5e7eb;
+    border-top: 2px solid #4f46e5;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.icon {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.answer-icon {
+    color: #10b981;
+}
+
+.sources-icon {
+    color: #f59e0b;
+}
+
+.error-content {
+    color: #dc2626 !important;
+    background: #fef2f2 !important;
+    border-color: #fecaca !important;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .main-container {
+        margin: 1rem;
+        padding: 1.5rem;
+        border-radius: 16px;
+    }
+    
+    .app-header {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .question-container {
+        padding: 1rem;
+    }
+    
+    .result-section {
+        padding: 1rem;
+    }
+    
+    .ask-button {
+        width: 100% !important;
+        margin-top: 1rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .app-header {
+        font-size: 1.75rem;
+    }
+    
+    .result-content {
+        font-size: 0.9rem !important;
+        padding: 1rem !important;
+    }
+}
+
+/* Custom scrollbar */
+.result-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.result-content::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 4px;
+}
+
+.result-content::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+
+.result-content::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* Animation for content updates */
+.result-content {
+    transition: all 0.3s ease;
+}
+
+/* Focus indicators for accessibility */
+.form-control:focus,
+.ask-button:focus {
+    outline: 2px solid #4f46e5 !important;
+    outline-offset: 2px !important;
+}
