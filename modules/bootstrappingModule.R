@@ -191,7 +191,7 @@ bootstrappingServer <- function(id, data) {
         filtered_data <- filtered_data %>%
         mutate(
             Loss_Year = year(Loss_Date),
-            Dev_period = year(Paid_Date) - year(Loss_Date)
+            Dev_period = pmax(0,as.numeric(difftime(Paid_Date, Loss_Date, units = "days")) %/% 90)
         ) %>%
         group_by(Loss_Year, Dev_period) %>%
         summarise(Gross_Amount = sum(Gross_Paid, na.rm = TRUE), .groups = "drop")

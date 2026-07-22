@@ -115,9 +115,7 @@ cumTriServer <- function(id, data) {
             # Create a label or factor for the origin, e.g. "2017-Q1"
             Loss_Origin = factor(paste0(Loss_Year, "-Q", Loss_Q)),
             
-            Dev_period = floor(
-              ((year(Paid_Date)*12 + month(Paid_Date)) - (year(Loss_Date)*12 + month(Loss_Date))) / 3
-            )
+            Dev_period = pmax(0,as.numeric(difftime(Paid_Date, Loss_Date, units = "days")) %/% 90)
           )
         
         origin_col <- "Loss_Origin"
